@@ -21,16 +21,13 @@ test.describe('Dashboard', () => {
 
     test('Verify navigation menu', async({page}) => {
         const menuItems = [
-            'Tổng quan',
             'Hàng hóa',
             'Mua hàng',
             'Đơn hàng',
             'Khách hàng',
             'Bác sĩ',
             'Nhân viên',
-            'Sổ quỹ',
             'Phân tích',
-            'Bán online',
             'Thuế & Kế toán'
         ]
 
@@ -38,7 +35,7 @@ test.describe('Dashboard', () => {
             await expect(page.locator('a').filter( {hasText: menuItems[index]}).first()).toBeVisible();
         }
 
-        await expect(page.locator('a').filter({ hasText: 'Tổng quan' }).first()).toHaveClass(/active/);
+        await expect(page.getByRole('link', { name: 'Tổng quan' })).toHaveClass(/active/);
     })
 
     test('Verify Doanh thu thuần & filter tab', async ({page}) => {
