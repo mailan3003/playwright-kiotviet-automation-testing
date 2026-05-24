@@ -1,9 +1,9 @@
 import {test, expect} from '@playwright/test';
-import { Login } from '../../utils/auth.helper';
 
 test.describe('Dashboard', () => {
     test.beforeEach(async({page}) => {
-        await Login(page, 'admin', 'Kiotviet123456');
+        // await Login(page, 'admin', 'Kiotviet123456');
+        await page.goto('https://testz18.kiotviet.vn/man/#/DashBoard');
     })
 
     test('Verify dashboard screen', async({page}) => {  
