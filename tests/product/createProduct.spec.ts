@@ -21,6 +21,9 @@ test.describe('Create Product', () => {
         await productPage.clickButtonAgreeGiaVon();
 
         //Verify product is created successfully
-        await productPage.verifyProductCreated(tenHang, giaVon, giaBan);
+        await expect(productPage.verifyProductCreated(tenHang)).toBeVisible();
+        await expect(productPage.verifyProductCreated(productPage.formatNumber(giaVon))).toBeVisible();
+        await expect(productPage.verifyProductCreated(productPage.formatNumber(giaBan))).toBeVisible();
+
     })
 })

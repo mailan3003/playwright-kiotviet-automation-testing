@@ -85,17 +85,13 @@ export class ProductPage extends BasePage {
         await this.page.locator('alert').waitFor({ state: 'hidden' });
     }
 
-    async verifyProductCreated(tenHang: string, giaVon: string, giaBan: string): Promise<void> {
+    formatNumber(numStr: string): string {
+        return Number(numStr).toLocaleString('en-US');
+    }
+
+    verifyProductCreated(text: string): Locator {
         // ✅ Chờ alert biến mất
-        await this.page.locator('alert').waitFor({ state: 'hidden' });
-
-        const formattedGiaVon = Number(giaVon).toLocaleString('en-US');
-        const formattedGiaBan = Number(giaBan).toLocaleString('en-US');
-
-        // ✅ Dùng expect — tự chờ, không cần isVisible()
-        await expect(this.page.getByRole('gridcell').filter({ hasText: tenHang }).first()).toBeVisible();
-        await expect(this.page.getByRole('gridcell').filter({ hasText: formattedGiaVon }).first()).toBeVisible();
-        await expect(this.page.getByRole('gridcell').filter({ hasText: formattedGiaBan }).first()).toBeVisible();
+        return this.page.getByRole('gridcell').filter({ hasText: text }).first();
     }
 
 }
