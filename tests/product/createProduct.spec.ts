@@ -13,15 +13,14 @@ test.describe('Create Product', () => {
     test('T01: Create new product with valid data', async ({page}) => {
         const randomNum = Math.floor(Math.random()*1000);
         const tenHang = `Sản phẩm ${randomNum}`;
-        const giaVon = '100000';
-        const giaBan = '200000';
+        const giaVon = `${randomNum}000`;
+        const giaBan = `${randomNum}999`;
         await productPage.fillFullProductInfo(tenHang, giaVon, giaBan);
         await productPage.saveProduct();
-        await productPage.clickButtonAgree();
+        await productPage.clickButtonAgreeUnit();
+        await productPage.clickButtonAgreeGiaVon();
 
         //Verify product is created successfully
-       expect(await productPage.isProductCreatedWithTenHang(tenHang)).toBeTruthy();
-       expect(await productPage.isProductCreatedWithGiaVon(giaVon)).toBeTruthy();
-       expect(await productPage.isProductCreatedWithGiaBan(giaBan)).toBeTruthy();
+        await productPage.verifyProductCreated(tenHang, giaVon, giaBan);
     })
 })

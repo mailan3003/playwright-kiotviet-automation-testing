@@ -1,5 +1,6 @@
 import {Page, Locator} from '@playwright/test';
 import {BasePage} from './BasePage';
+import {expect} from '@playwright/test';
 
 export class ProductPage extends BasePage {
     readonly productMenu: Locator;
@@ -11,8 +12,8 @@ export class ProductPage extends BasePage {
     readonly giaVonInput: Locator;
     readonly giaBanInput: Locator;
     readonly saveButton: Locator;
-    readonly buttonAgree: Locator;
-
+    readonly buttonAgreeUnit: Locator;
+    readonly buttonAgreeGiaVon: Locator;
 
     constructor(page: Page){
         super(page);
@@ -25,7 +26,8 @@ export class ProductPage extends BasePage {
         this.giaVonInput = page.locator('.iptPriceCost');
         this.giaBanInput = page.locator('#iptBasePriceMaster');
         this.saveButton = page.getByRole('link', { name: 'Lưu', exact: true });
-        this.buttonAgree = page.locator('#filterMultiInvoices').getByRole('button', { name: 'Đồng ý' });
+        this.buttonAgreeUnit = page.locator('#filterMultiInvoices .kv-btn-confirm');
+        this.buttonAgreeGiaVon = page.locator('[kendo-window="productCostScopeWindow"]').locator('a.kv-btn-primary');
     }
 
     //Navigate to product page
@@ -70,22 +72,30 @@ export class ProductPage extends BasePage {
         await this.fillGiaBan(giaBan);
     }
 
-    async clickButtonAgree(): Promise<void> {
-        await this.buttonAgree.click();
+    async clickButtonAgreeUnit(): Promise<void> {
+        await expect(this.buttonAgreeUnit).toBeVisible({ timeout: 5000 });
+        await this.buttonAgreeUnit.click();
+        await expect(this.buttonAgreeUnit).not.toBeVisible({ timeout: 10000 });
     }
 
-    async isProductCreatedWithTenHang(tenHang: string): Promise<boolean> {
-        const productRow = this.page.locator('tr').filter({ hasText: tenHang});
-        return productRow.isVisible();
+    async clickButtonAgreeGiaVon(): Promise<void> {
+        await expect(this.buttonAgreeGiaVon).toBeAttached({ timeout: 5000 });
+        await this.buttonAgreeGiaVon.click({ force: true });
+        await expect(this.buttonAgreeGiaVon).not.toBeAttached({ timeout: 10000 });
+        await this.page.locator('alert').waitFor({ state: 'hidden' });
     }
 
-    async isProductCreatedWithGiaVon(giaVon: string): Promise<boolean> {
-        const productRow = this.page.locator('tr').filter({ hasText: giaVon});
-        return productRow.isVisible();
+    async verifyProductCreated(tenHang: string, giaVon: string, giaBan: string): Promise<void> {
+        // ✅ Chờ alert biến mất
+        await this.page.locator('alert').waitFor({ state: 'hidden' });
+
+        const formattedGiaVon = Number(giaVon).toLocaleString('en-US');
+        const formattedGiaBan = Number(giaBan).toLocaleString('en-US');
+
+        // ✅ Dùng expect — tự chờ, không cần isVisible()
+        await expect(this.page.getByRole('gridcell').filter({ hasText: tenHang }).first()).toBeVisible();
+        await expect(this.page.getByRole('gridcell').filter({ hasText: formattedGiaVon }).first()).toBeVisible();
+        await expect(this.page.getByRole('gridcell').filter({ hasText: formattedGiaBan }).first()).toBeVisible();
     }
 
-    async isProductCreatedWithGiaBan(giaBan: string): Promise<boolean> {
-        const productRow = this.page.locator('tr').filter({ hasText: giaBan});
-        return productRow.isVisible();
-    }
 }
