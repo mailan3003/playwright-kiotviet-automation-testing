@@ -1,9 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv'
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
+dotenv.config();
 // import dotenv from 'dotenv';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
@@ -40,7 +42,28 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'api',
+      testMatch: '**/api/**/*.spec.ts',
+      use: {
+        baseURL: process.env.KIOTVIET_BASE_URL,   // override → https://api-man1.kiotviet.vn
+        extraHTTPHeaders: {
+          'Accept': 'application/json',
+        },
+      },
+    },
+
+    {
+      name: 'ui',
+      testIgnore: '**/api/**',
+      use: {
+        // baseURL tự inherit từ global → frontend URL
+        storageState: '.auth/kiotviet.json',
+      },
+    },
+    
+    {
       name: 'chromium',
+      testIgnore: '**/api/**',
       use: { ...devices['Desktop Chrome'] },
     },
 
