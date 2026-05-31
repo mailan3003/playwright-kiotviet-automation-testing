@@ -6,7 +6,7 @@ export class ProductBuilder {
     constructor() {
         const random = Math.floor(Math.random() * 100000);
         this.product = {
-            Name: 'Sản phẩm ${random}',
+            Name: `Sản phẩm ${random}`,
             Cost: 50000,
             RewardPoint: 0,
         }

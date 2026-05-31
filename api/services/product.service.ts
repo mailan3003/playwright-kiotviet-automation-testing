@@ -25,31 +25,7 @@ export class ProductService {
             BranchForProductCostss: JSON.stringify([
                 { Id: 333, Name: 'Chi nhánh trung tâm' },
             ]),
-        }
-
-        console.log('\n========== 📤 REQUEST ==========');
-        console.log('Endpoint:', '/api/products/addmany?apiversion=5');
-        console.log('\n--- Form data fields ---');
-        Object.entries(formData).forEach(([key, value]) => {
-            console.log(`${key}:`, value);
-        });
-        console.log('\n--- Product payload (parsed) ---');
-        console.log(JSON.stringify(productPayload, null, 2));
-        console.log('================================\n');
-
-        const response = await this.client.postMultipart(
-            '/api/products/addmany?apiversion=5',
-            formData
-        );
-
-        // 🔍 DEBUG: in body khi không phải 200
-        if (response.status() !== 200) {
-            console.log('========== ERROR DEBUG ==========');
-            console.log('Status:', response.status());
-            console.log('URL:', response.url());
-            console.log('Body:', await response.text());
-            console.log('==================================');
-        }
+        };
 
         return this.client.postMultipart(
             '/api/products/addmany?apiversion=5', 

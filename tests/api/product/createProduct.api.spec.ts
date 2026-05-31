@@ -18,7 +18,7 @@ test.describe('Create Product API - Tạo sản phẩm', () => {
 
         const created = body.Data[0];
         expect(created.Name).toBe('Cà phê sữa đá test');
-        expect(created.BasePrice).toBe(25000);
+        expect(created.BasePrice).toBe(250000);
         expect(created.Id).toBeGreaterThan(0);
         expect(created.Code).toMatch(/^SP\d+$/);  // format SP + số
         expect(created.isActive).toBe(true);
