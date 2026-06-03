@@ -9,7 +9,10 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.60.0",
-    "@types/node": "^25.8.0",
+    "@types/node": "^25.9.1",
     "dotenv": "^17.4.2"
+  },
+  "dependencies": {
+    "axios": "^1.17.0"
   }
 }

@@ -1,8 +1,9 @@
-import {test, expect} from '../../../fixtures';
+// import {test} from '../../../fixtures';
+import { apiTest, expect } from '../../../fixtures';         
 import {ProductBuilder} from '../../../api/builders/product.builder';
 
-test.describe('Create Product API - Tạo sản phẩm', () => {
-    test ('T01 - Tạo sản phẩm thành công với data hợp lệ', async ({productService}) => {
+apiTest.describe('Create Product API - Tạo sản phẩm', () => {
+    apiTest ('T01 - Tạo sản phẩm thành công với data hợp lệ', async ({productService}) => {
         const newProduct = new ProductBuilder()
         .withName('Cà phê sữa đá test')
         .withPrice(250000, 15000)
@@ -25,3 +26,25 @@ test.describe('Create Product API - Tạo sản phẩm', () => {
         expect(created.isDeleted).toBe(false);
     })
 })
+
+apiTest.describe('Create Product API - Với Login Trước', () => {
+    apiTest('T01 - Tạo sản phẩm (token tự động từ login)', 
+        async ({ productService, apiToken }) => {
+            //                     ↑ Token lấy từ fixture!
+            
+            console.log(`Using token: ${apiToken.substring(0, 20)}...`);
+
+            const newProduct = new ProductBuilder()
+                .withName('Cà phê sữa đá test')
+                .withPrice(250000, 15000)
+                .build();
+
+            const response = await productService.createProduct(newProduct);
+            // ↑ productService đã có token từ env (gán trong fixture)
+
+            expect(response.status()).toBe(200);
+            const body = await response.json();
+            expect(body.Data[0].Name).toBe('Cà phê sữa đá test');
+        }
+    );
+});
