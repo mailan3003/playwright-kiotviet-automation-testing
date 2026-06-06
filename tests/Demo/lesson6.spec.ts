@@ -81,11 +81,18 @@ test.describe('Bài 2 - iFrame', () => {
 test.describe('Bài 3 - file upload', () => {
 
     test.beforeEach(async ({page}) => {
-        await page.goto('https://letcode.in/frame');
+        await page.goto('https://the-internet.herokuapp.com/upload');
     })
 
-    test('Nhập text vào iFrame và kiểm tra', async ({page}) => {
-               
+    test('Upload file', async ({page}) => {
+        const filePath = 'D:\\LAN\\AutoTest\\playwright-demo\\tests\\Demo\\avt.jpg';
+        await page.setInputFiles('#file-upload', filePath);
+        await page.click('#file-submit');
+
+        const result = await page.locator('.example').textContent();
+        expect(result).toContain('File Uploaded!');
+        const uploadedFilename = await page.locator('#uploaded-files').textContent();
+        expect(uploadedFilename).toContain('avt.jpg');
 
     })
 
