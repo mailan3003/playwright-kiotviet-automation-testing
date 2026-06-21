@@ -29,7 +29,7 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    headless: false,
+    headless: true,
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'https://testz18.kiotviet.vn',
     storageState: '.auth/kiotviet.json',
@@ -69,6 +69,7 @@ export default defineConfig({
 
     // {
     //   name: 'firefox',
+    //   testIgnore: '**/api/**',
     //   use: { ...devices['Desktop Firefox'] },
     // },
 

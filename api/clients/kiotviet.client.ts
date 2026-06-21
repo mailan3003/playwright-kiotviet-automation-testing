@@ -8,24 +8,9 @@ export class KiotvietClient {
     ){}
 
     private getDefaultHeaders() {
-
-        const headers = {
-            'accept': 'application/json, text/plain, */*',
-            'authorization': `Bearer ${this.token}`,
-            'branchid': process.env.KIOTVIET_BRANCH_ID!,
-            'retailer': process.env.KIOTVIET_RETAILER!,
-            'x-retailer-code': process.env.KIOTVIET_RETAILER!,
-            'x-group-id': process.env.KIOTVIET_GROUP_ID!,
-            'x-language': 'vi-VN',
-            'x-timezone': 'Asia/Bangkok',
-            'isusekvclient': '1',
-            'origin': process.env.KIOTVIET_FRONTEND_URL!,
-            'referer': `${process.env.KIOTVIET_FRONTEND_URL}/`,
-            };
-
         return {
             'accept': 'application/json, text/plain, */*',
-            'authorization': `Bearer ${process.env.KIOTVIET_TOKEN}`,
+            'authorization': `Bearer ${this.token}`,
             'branchid': process.env.KIOTVIET_BRANCH_ID!,
             'retailer': process.env.KIOTVIET_RETAILER!,
             'x-retailer-code': process.env.KIOTVIET_RETAILER!,
