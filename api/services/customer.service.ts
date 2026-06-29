@@ -5,7 +5,7 @@ export class CustomerService {
     constructor(private apiClient: ApiClient) {}
     create (body: CreateCustomerRequest){
         return this.apiClient.post(
-            "/customers",
+            "api/customers",
             body
         )
     }

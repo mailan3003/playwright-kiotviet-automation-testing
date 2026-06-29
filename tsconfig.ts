@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "commonjs",
-    "types": ["node"]
+    "types": ["node"],
+    "resolveJsonModule": true,
   }
 }
